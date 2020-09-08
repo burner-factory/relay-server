@@ -22,6 +22,9 @@ const getWeb3 = (network: string): Web3 => {
 
   const provider = new HDWalletProvider(process.env.MNEMONIC, innerProvider, 0, 1, false);
 
+  // @ts-ignore
+  provider.engine._blockTracker._isRunning = false;
+
   return new Web3(provider);
 };
 

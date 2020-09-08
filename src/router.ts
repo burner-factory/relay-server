@@ -8,6 +8,13 @@ const HUB_ADDRESS = '0xd216153c06e857cd7f72665e0af1d7d82172f494';
 
 const router = new Router();
 
+router.get('/', async (ctx, next) => {
+  await next();
+
+  ctx.body = 'Burner Factory relayer';
+  ctx.status = 200;
+});
+
 router.post('/pre-relay', async (ctx, next) => {
   console.log('Pre-relay', ctx.request.body);
   await next();
