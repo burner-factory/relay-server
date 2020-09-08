@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "outDir": "./build",
+    "strict": true,
+    "watch": true,
+    "typeRoots" : ["./node_modules/@types", "./typings"]
+  }
+}
