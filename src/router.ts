@@ -31,10 +31,15 @@ router.post('/pre-relay', async (ctx, next) => {
   const relay = (web3.currentProvider as HDWalletProvider).getAddress(0);
 
   const contract = new web3.eth.Contract(IRelayHub as any, HUB_ADDRESS);
-  const nonce = await contract.methods.getNonce(from).call();
+  const [nonce, balance] = await Promise.all([
+    contract.methods.getNonce(from).call(),
+    contract.methods.balanceOf(to).call(),
+  ]);
+
+  const canRelay = web3.utils.toBN(_gasLimit).lt(web3.utils.toBN(balance));
 
   ctx.body = {
-    canRelay: true,
+    canRelay,
     gasLimit: _gasLimit,
     txFee: 70,
     nonce,
