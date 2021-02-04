@@ -49,6 +49,9 @@ router.post('/pre-relay', async (ctx, next) => {
   ctx.status = 200;
 });
 
+// gasReserve + acceptRelayedCallMaxGas + preRelayedCallMaxGas + postRelayedCallMaxGas + extra
+const gasPadding = 100000 + 50000 + 100000 + 100000 + 100000
+
 router.post('/relay', async (ctx, next) => {
   console.log('Relay', ctx.request.body);
   await next();
@@ -71,6 +74,7 @@ router.post('/relay', async (ctx, next) => {
   const tx = contract.methods.relayCall(from, to, data, txFee, gasPrice, gasLimit, nonce, signature, approvalData).send({
     from: relay,
     gasPrice: '1100000000',
+    gasLimit: (parseInt(gasLimit) + gasPadding).toString(),
   });
 
   return new Promise((resolve, reject) => {
